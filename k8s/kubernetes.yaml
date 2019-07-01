@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-project-deployment
+  namespace: test-namespace
+  labels:
+    app: test-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-project
+  template:
+    metadata:
+      labels:
+        app: test-project
+    spec:
+      containers:
+      - name: test-project
+        image: hub.cathay/test-project:latest
+        ports:
+        - name: http
+          containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: test-project-service
+  namespace: test-namespace
+  labels:
+    app: test-project-service
+spec:
+  selector:
+    app: test-project
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-project-ingress
+  namespace: test-namespace
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /test
+        backend:
+          serviceName: test-project-service
+          servicePort: 8080
