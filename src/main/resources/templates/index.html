@@ -1,0 +1,115 @@
+<html>
+
+<head></head>
+
+<body>
+    <form>
+        <table width="800">
+            <tr>
+                <td align="center" colspan="2">資料庫測試工具</td>
+            </tr>
+            <tr>
+                <td width="100">MySQL：</td>
+                <td><textarea cols="100" rows="5" id="mysql_sql" name="mysql_sql"></textarea></td>
+            </tr>
+            <tr>
+                <td>DB2：</td>
+                <td><textarea cols="100" rows="5" id="db2_sql" name="db2_sql"></textarea></td>
+            </tr>
+            <tr>
+                <td>執行筆數：</td>
+                <td><input type="text" id="exec_count" name="exec_count" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" id="btn_mysql" value="MySQL" />
+                    <input type="button" id="btn_mycat" value="MyCat" />
+                    <input type="button" id="btn_db2" value="DB2" />
+                    <input type="button" id="btn_test" value="整合測試" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <table width="800">
+        <tr>
+            <td align="center" colspan="2">執行結果</td>
+        </tr>
+        <tr>
+            <td width="100px">執行時間：</td>
+            <td>1,038</td>
+        </tr>
+        <tr>
+            <td>執行結果：</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+
+    <script>
+        var $ = document.querySelectorAll.bind(document);
+        Element.prototype.on = Element.prototype.addEventListener;
+        NodeList.prototype.on = function (event, fn) {
+            []['forEach'].call(this, function (el) {
+                el.on(event, fn);
+            });
+            return this;
+        };
+        function request(type, url, opts, callback) {
+            var xhr = new XMLHttpRequest();
+            if (typeof opts === 'function') {
+                callback = opts;
+                opts = null;
+            }
+            xhr.open(type, url);
+            var fd = new FormData();
+            if (type === 'POST' && opts) {
+                for (var key in opts) {
+                    fd.append(key, opts[key]);
+                }
+            }
+            xhr.onload = function () {
+                var response;
+                try {
+                    response = JSON.parse(xhr.response);
+                } catch (e) {
+                    response = xhr.response;
+                }
+                callback(response);
+            };
+            xhr.send(opts ? fd : null);
+        }
+        var get = request.bind(this, 'GET');
+        var post = request.bind(this, 'POST');
+
+        var queryFunction = function () {
+            var param = {
+                'mysql_sql': $("#mysql_sql")[0].value,
+                'db2_sql': $("#db2_sql")[0].value,
+                'exec_count': $("#exec_count")[0].value,
+            };
+            if (this.value == 'MySQL') {
+                request("POST", "/execMySQL", param, function (resp) {
+                    console.log(resp);
+                })
+            } else if (this.value == 'MyCat') {
+                request("POST", "/execMyCat", param, function (resp) {
+                    console.log(resp);
+                })
+            } else if (this.value == 'DB2') {
+                request("POST", "/execDB2", param, function (resp) {
+                    console.log(resp);
+                })
+            } else {
+                request("POST", "/execTest", param, function (resp) {
+                    console.log(resp);
+                })
+            }
+        }
+
+        $("#btn_mysql").on("click", queryFunction);
+        $("#btn_mycat").on("click", queryFunction);
+        $("#btn_db2").on("click", queryFunction);
+        $("#btn_test").on("click", queryFunction);
+    </script>
+</body>
+
+</html>
