@@ -10,15 +10,15 @@
             </tr>
             <tr>
                 <td width="100">MySQL：</td>
-                <td><textarea cols="100" rows="5" id="mysql_sql" name="mysql_sql"></textarea></td>
+                <td><textarea cols="100" rows="5" id="mysql_sql" name="mysql_sql">select POLICY_NO from dtab0001_ta where POLICY_NO = ?</textarea></td>
             </tr>
             <tr>
                 <td>DB2：</td>
-                <td><textarea cols="100" rows="5" id="db2_sql" name="db2_sql"></textarea></td>
+                <td><textarea cols="100" rows="5" id="db2_sql" name="db2_sql">select POLICY_NO from DBAB.DTAB0001_TA where POLICY_NO = ?</textarea></td>
             </tr>
             <tr>
                 <td>執行筆數：</td>
-                <td><input type="text" id="exec_count" name="exec_count" /></td>
+                <td><input type="text" id="exec_count" name="exec_count" value="10" /></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
@@ -36,11 +36,11 @@
         </tr>
         <tr>
             <td width="100px">執行時間：</td>
-            <td>1,038</td>
+            <td><span id="result_time">0.00</span></td>
         </tr>
         <tr>
             <td>執行結果：</td>
-            <td>&nbsp;</td>
+            <td><span id="result">None</span></td>
         </tr>
     </table>
 
@@ -80,6 +80,11 @@
         var get = request.bind(this, 'GET');
         var post = request.bind(this, 'POST');
 
+        var resultFunction = function (resp) {
+            $("#result_time")[0].innerHTML = resp.exec_time;
+            $("#result")[0].innerHTML = JSON.stringify(resp);
+        }
+
         var queryFunction = function () {
             var param = {
                 'mysql_sql': $("#mysql_sql")[0].value,
@@ -87,21 +92,13 @@
                 'exec_count': $("#exec_count")[0].value,
             };
             if (this.value == 'MySQL') {
-                request("POST", "/execMySQL", param, function (resp) {
-                    console.log(resp);
-                })
+                request("POST", "/test/execMySQL", param, resultFunction);
             } else if (this.value == 'MyCat') {
-                request("POST", "/execMyCat", param, function (resp) {
-                    console.log(resp);
-                })
+                request("POST", "/test/execMyCat", param, resultFunction);
             } else if (this.value == 'DB2') {
-                request("POST", "/execDB2", param, function (resp) {
-                    console.log(resp);
-                })
+                request("POST", "/test/execDB2", param, resultFunction);
             } else {
-                request("POST", "/execTest", param, function (resp) {
-                    console.log(resp);
-                })
+                request("POST", "/test/execTest", param, resultFunction);
             }
         }
 
