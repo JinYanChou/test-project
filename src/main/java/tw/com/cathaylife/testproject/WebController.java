@@ -1,12 +1,8 @@
 package tw.com.cathaylife.testproject;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,25 +21,21 @@ public class WebController {
     public Map<String, Object> execLocal(@RequestParam String mysql_sql, @RequestParam String db2_sql,
             @RequestParam String exec_count) {
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1/mycat?useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("cathaylife");
+        // JdbcTemplate jdbcTemplate = config.getJdbcTemplateLocal();
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-        List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta limit " + exec_count);
+        // List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta
+        // limit " + exec_count);
 
         long start = System.currentTimeMillis();
-        Iterator it = test_data.iterator();
+        // Iterator it = test_data.iterator();
         int count = 0;
-        while (it.hasNext()) {
-            Map<String, String> map = (Map<String, String>) it.next();
-            String POLICY_NO = map.get("POLICY_NO");
-            System.err.println("POLICY_NO = " + POLICY_NO);
-            count += jdbcTemplate.queryForList(mysql_sql, new Object[] {POLICY_NO}).size();
-        }
+        // while (it.hasNext()) {
+        // Map<String, String> map = (Map<String, String>) it.next();
+        // String POLICY_NO = map.get("POLICY_NO");
+        // System.err.println("POLICY_NO = " + POLICY_NO);
+        // count += jdbcTemplate.queryForList(mysql_sql, new Object[]
+        // {POLICY_NO}).size();
+        // }
         long end = System.currentTimeMillis();
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -57,31 +49,32 @@ public class WebController {
     public Map<String, Object> execMySQL(@RequestParam String mysql_sql, @RequestParam String db2_sql,
             @RequestParam String exec_count) {
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://mysql-stateful-0.mysql.test-namespace.svc.cluster.local/mycat?useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("cathaylife");
+        // DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        // dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        // dataSource.setUrl("jdbc:mysql://mysql-stateful-0.mysql.test-namespace.svc.cluster.local/mycat?useSSL=false");
+        // dataSource.setUsername("root");
+        // dataSource.setPassword("cathaylife");
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        // JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta limit " + exec_count);
+        // List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta limit " + exec_count);
 
-        long start = System.currentTimeMillis();
-        Iterator it = test_data.iterator();
-        int count = 0;
-        while (it.hasNext()) {
-            Map<String, String> map = (Map<String, String>) it.next();
-            String POLICY_NO = map.get("POLICY_NO");
-            System.err.println("POLICY_NO = " + POLICY_NO);
-            count += jdbcTemplate.queryForList(mysql_sql, new Object[] {POLICY_NO}).size();
-        }
-        long end = System.currentTimeMillis();
+        // long start = System.currentTimeMillis();
+        // Iterator it = test_data.iterator();
+        // int count = 0;
+        // while (it.hasNext()) {
+        //     Map<String, String> map = (Map<String, String>) it.next();
+        //     String POLICY_NO = map.get("POLICY_NO");
+        //     System.err.println("POLICY_NO = " + POLICY_NO);
+        //     count += jdbcTemplate.queryForList(mysql_sql, new Object[] { POLICY_NO }).size();
+        // }
+        // long end = System.currentTimeMillis();
 
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("exec_time", (end - start) + " ms");
-        resultMap.put("result", "總筆數：" + count);
-        return resultMap;
+        // Map<String, Object> resultMap = new HashMap<String, Object>();
+        // resultMap.put("exec_time", (end - start) + " ms");
+        // resultMap.put("result", "總筆數：" + count);
+        // return resultMap;
+        return null;
     }
 
     @RequestMapping("/execMyCat")
@@ -89,31 +82,32 @@ public class WebController {
     public Map<String, Object> execMyCat(@RequestParam String mysql_sql, @RequestParam String db2_sql,
             @RequestParam String exec_count) {
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://mycat-service.test-namespace.svc.cluster.local:8066/mycat?useSSL=false");
-        dataSource.setUsername("ebaf");
-        dataSource.setPassword("ebaf");
+        // DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        // dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        // dataSource.setUrl("jdbc:mysql://mycat-service.test-namespace.svc.cluster.local:8066/mycat?useSSL=false");
+        // dataSource.setUsername("ebaf");
+        // dataSource.setPassword("ebaf");
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        // JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta limit " + exec_count);
+        // List test_data = jdbcTemplate.queryForList("select POLICY_NO from dtab0001_ta limit " + exec_count);
 
-        long start = System.currentTimeMillis();
-        Iterator it = test_data.iterator();
-        int count = 0;
-        while (it.hasNext()) {
-            Map<String, String> map = (Map<String, String>) it.next();
-            String POLICY_NO = map.get("POLICY_NO");
-            System.err.println("POLICY_NO = " + POLICY_NO);
-            count += jdbcTemplate.queryForList(mysql_sql, new Object[] {POLICY_NO}).size();
-        }
-        long end = System.currentTimeMillis();
+        // long start = System.currentTimeMillis();
+        // Iterator it = test_data.iterator();
+        // int count = 0;
+        // while (it.hasNext()) {
+        //     Map<String, String> map = (Map<String, String>) it.next();
+        //     String POLICY_NO = map.get("POLICY_NO");
+        //     System.err.println("POLICY_NO = " + POLICY_NO);
+        //     count += jdbcTemplate.queryForList(mysql_sql, new Object[] { POLICY_NO }).size();
+        // }
+        // long end = System.currentTimeMillis();
 
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("exec_time", (end - start) + " ms");
-        resultMap.put("result", "總筆數：" + count);
-        return resultMap;
+        // Map<String, Object> resultMap = new HashMap<String, Object>();
+        // resultMap.put("exec_time", (end - start) + " ms");
+        // resultMap.put("result", "總筆數：" + count);
+        // return resultMap;
+        return null;
     }
 
     @RequestMapping("/execDB2")
@@ -131,6 +125,7 @@ public class WebController {
             @RequestParam String exec_count) {
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("exec_time", "33.000");
+
         return resultMap;
     }
 }

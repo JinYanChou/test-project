@@ -1,0 +1,30 @@
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1/mycat?useSSL=false
+    username: root
+    password: cathaylife
+    driver-class-name: com.mysql.jdbc.Driver
+
+custom:
+  profiles: dev
+  datasource:
+    names: db2,mysql,mycat
+    db2:
+      datasource:
+        url: jdbc:db2://10.95.40.1:50000/CXL1
+        username: DBAB
+        password: cathayab
+        driver-class-name: com.ibm.db2.jcc.DB2Driver
+    mysql:
+      datasource:
+        url: jdbc:mysql://mysql-stateful-0.mysql.test-namespace.svc.cluster.local/mycat?useSSL=false
+        username: ebaf
+        password: ebaf
+        driver-class-name: com.mysql.jdbc.Driver
+    mycat:
+      datasource:
+        url: jdbc:mysql://mycat-service.test-namespace.svc.cluster.local:8066/mycat?useSSL=false
+        username: ebaf
+        password: ebaf
+        driver-class-name: com.mysql.jdbc.Driver
