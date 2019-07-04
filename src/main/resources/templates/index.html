@@ -10,11 +10,13 @@
             </tr>
             <tr>
                 <td width="100">MySQL：</td>
-                <td><textarea cols="100" rows="5" id="mysql_sql" name="mysql_sql">select POLICY_NO from dtab0001_ta where POLICY_NO = ?</textarea></td>
+                <td><textarea cols="100" rows="5" id="mysql_sql"
+                        name="mysql_sql">select POLICY_NO from dtab0001_ta where POLICY_NO = ?</textarea></td>
             </tr>
             <tr>
                 <td>DB2：</td>
-                <td><textarea cols="100" rows="5" id="db2_sql" name="db2_sql">select POLICY_NO from DBAB.DTAB0001_TA where POLICY_NO = ?</textarea></td>
+                <td><textarea cols="100" rows="5" id="db2_sql"
+                        name="db2_sql">select POLICY_NO from DBAB.DTAB0001_TA where POLICY_NO = ?</textarea></td>
             </tr>
             <tr>
                 <td>執行筆數：</td>
@@ -22,6 +24,7 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
+                    <input type="button" id="btn_local" value="Local" />
                     <input type="button" id="btn_mysql" value="MySQL" />
                     <input type="button" id="btn_mycat" value="MyCat" />
                     <input type="button" id="btn_db2" value="DB2" />
@@ -86,12 +89,17 @@
         }
 
         var queryFunction = function () {
+            $("#result_time")[0].innerHTML = '';
+            $("#result")[0].innerHTML = '';
+
             var param = {
                 'mysql_sql': $("#mysql_sql")[0].value,
                 'db2_sql': $("#db2_sql")[0].value,
                 'exec_count': $("#exec_count")[0].value,
             };
-            if (this.value == 'MySQL') {
+            if (this.value == 'Local') {
+                request("POST", "/test/execLocal", param, resultFunction);
+            } else if (this.value == 'MySQL') {
                 request("POST", "/test/execMySQL", param, resultFunction);
             } else if (this.value == 'MyCat') {
                 request("POST", "/test/execMyCat", param, resultFunction);
@@ -102,6 +110,7 @@
             }
         }
 
+        $("#btn_local").on("click", queryFunction);
         $("#btn_mysql").on("click", queryFunction);
         $("#btn_mycat").on("click", queryFunction);
         $("#btn_db2").on("click", queryFunction);
