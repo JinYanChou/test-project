@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /test
+    context-path: /
 ---
 spring:
   profiles: 

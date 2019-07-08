@@ -35,7 +35,7 @@ public class DBModule {
         return this.query(localJdbcTemplate, sql_count, sql);
     }
 
-    public Map<String, Object> queryMysql(String table_name, int exec_count) {
+    public Map<String, Object> queryMySQL(String table_name, int exec_count) {
         String sql_count = "select POLICY_NO from " + table_name + " limit " + exec_count;
         String sql = "select POLICY_NO from " + table_name + " where POLICY_NO = ?";
         return this.query(mysqlJdbcTemplate, sql_count, sql);
@@ -48,7 +48,7 @@ public class DBModule {
     }
 
     public Map<String, Object> queryDB2(String table_name, int exec_count) {
-        String sql_count = "select POLICY_NO from dbab." + table_name + "fetch first " + exec_count + " only";
+        String sql_count = "select POLICY_NO from dbab." + table_name + " fetch first " + exec_count + " rows only";
         String sql = "select POLICY_NO from dbab." + table_name + " where POLICY_NO = ?";
         return this.query(db2JdbcTemplate, sql_count, sql);
     }

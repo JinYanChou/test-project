@@ -22,7 +22,6 @@
                     <input type="button" id="btn_mysql" value="MySQL" />
                     <input type="button" id="btn_mycat" value="MyCat" />
                     <input type="button" id="btn_db2" value="DB2" />
-                    <input type="button" id="btn_test" value="整合測試" />
                 </td>
             </tr>
         </table>
@@ -98,8 +97,6 @@
                 request("POST", "/test/execMyCat", param, resultFunction);
             } else if (this.value == 'DB2') {
                 request("POST", "/test/execDB2", param, resultFunction);
-            } else {
-                request("POST", "/test/execTest", param, resultFunction);
             }
         }
 
@@ -107,7 +104,6 @@
         $("#btn_mysql").on("click", queryFunction);
         $("#btn_mycat").on("click", queryFunction);
         $("#btn_db2").on("click", queryFunction);
-        $("#btn_test").on("click", queryFunction);
     </script>
 </body>
 
