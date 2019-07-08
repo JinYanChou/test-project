@@ -4,19 +4,13 @@
 
 <body>
     <form>
-        <table width="800">
+        <table width="300">
             <tr>
                 <td align="center" colspan="2">資料庫測試工具</td>
             </tr>
             <tr>
-                <td width="100">MySQL：</td>
-                <td><textarea cols="100" rows="5" id="mysql_sql"
-                        name="mysql_sql">select POLICY_NO from dtab0001_ta where POLICY_NO = ?</textarea></td>
-            </tr>
-            <tr>
-                <td>DB2：</td>
-                <td><textarea cols="100" rows="5" id="db2_sql"
-                        name="db2_sql">select POLICY_NO from DBAB.DTAB0001_TA where POLICY_NO = ?</textarea></td>
+                <td width="100px">資料表：</td>
+                <td><input type="text" id="table_name" name="table_name" value="dtab0001_ta" /></td>
             </tr>
             <tr>
                 <td>執行筆數：</td>
@@ -33,7 +27,7 @@
             </tr>
         </table>
     </form>
-    <table width="800">
+    <table width="300">
         <tr>
             <td align="center" colspan="2">執行結果</td>
         </tr>
@@ -93,8 +87,7 @@
             $("#result")[0].innerHTML = '';
 
             var param = {
-                'mysql_sql': $("#mysql_sql")[0].value,
-                'db2_sql': $("#db2_sql")[0].value,
+                'table_name': $("#table_name")[0].value,
                 'exec_count': $("#exec_count")[0].value,
             };
             if (this.value == 'Local') {
